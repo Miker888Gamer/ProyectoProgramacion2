@@ -1,12 +1,12 @@
 from enum import Enum
 
-# 1. Enumerador para categorías (Requisito: al menos un enumerador)
+# 1. Enumerador para categorías
 class Categoria(Enum):
     ABARROTES = "Abarrotes"
     PANADERIA = "Panadería"
     FRUTA = "Fruta"
 
-# 2. Clase de Entidad: Producto (Requisito: tres clases de entidad)
+# 2. Clase de Entidad
 class Producto:
     """Clase que representa un producto de la tienda."""
     def __init__(self, id, nombre, precio, categoria, imagen):
@@ -23,11 +23,11 @@ class ItemCarrito:
         self.producto = producto
         self.cantidad = cantidad
 
-# 4. Clase de Entidad: Tienda (Lógica de Negocio)
+# 4. Clase de Entidad: Tienda
 class GestionTienda:
     """Clase para separar la lógica de negocio (Requisito: separar lógica)"""
     def __init__(self):
-        # Requisito: Debe tener listas
+       
         self.inventario = [
             Producto(1, "leche", 20.00, Categoria.ABARROTES, "leche_shabo.jpg"),
             Producto(2, "pan", 10.00, Categoria.PANADERIA, "bolillo_minecraft.jpg"),

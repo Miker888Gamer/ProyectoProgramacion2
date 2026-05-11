@@ -8,7 +8,7 @@ carrito_global = []
 
 @app.route('/')
 def index():
-    # Muestra la página de ventas (basada en tu imagen)
+    
     return render_template('index.html', productos=tienda.inventario)
 
 @app.route('/agregar', methods=['POST'])
@@ -30,7 +30,7 @@ def agregar():
 
 @app.route('/comprar')
 def comprar():
-    # Basado en tu imagen "tienda concepto 2"
+    
     subtotal, iva, total = tienda.calcular_totales(carrito_global)
     return render_template('comprar.html', 
                            items=carrito_global, 
