@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Precios compra</h2>
+    <ul>
+        {% for item in items %}
+        <li>{{ item.cantidad }}-{{ item.producto.nombre }} ${{ item.producto.precio }}</li>
+        {% endfor %}
+    </ul>
+    <p>SUBTOTAL: ${{ subtotal }}</p>
+    <p>IVA: ${{ iva }}</p>
+    <h3>Total: ${{ total }}</h3>
+    <a href="/">Volver</a>
+</body>
+</html>
