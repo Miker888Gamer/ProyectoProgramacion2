@@ -1,44 +1,18 @@
 from enum import Enum
 
-# 1. Enumerador para categorías
-class Categoria(Enum):
-    ABARROTES = "Abarrotes"
-    PANADERIA = "Panadería"
-    FRUTA = "Fruta"
+class TipoProducto(Enum):
+    CAFE = "Café"
+    LACTEO = "Lácteo"
+    FRAPPE = "Frappé"
 
-# 2. Clase de Entidad
 class Producto:
-    """Clase que representa un producto de la tienda."""
-    def __init__(self, id, nombre, precio, categoria, imagen):
-        self.id = id
-        self.nombre = nombre
-        self.precio = precio
-        self.categoria = categoria
-        self.imagen = imagen
-
-# 3. Clase de Entidad: Carrito
-class ItemCarrito:
-    """Representa un producto seleccionado y su cantidad."""
-    def __init__(self, producto, cantidad):
-        self.producto = producto
-        self.cantidad = cantidad
-
-# 4. Clase de Entidad: Tienda
-class GestionTienda:
-    """Clase para separar la lógica de negocio (Requisito: separar lógica)"""
-    def __init__(self):
-       
-        self.inventario = [
-            Producto(1, "leche", 20.00, Categoria.ABARROTES, "leche_shabo.jpg"),
-            Producto(2, "pan", 10.00, Categoria.PANADERIA, "bolillo_minecraft.jpg"),
-            Producto(3, "banana", 15.00, Categoria.FRUTA, "banana.jpg")
-        ]
+    """Clase que representa un producto de la cafetería."""
     
-    def buscar_por_id(self, id):
-        return next((p for p in self.inventario if p.id == id), None)
+    def __init__(self, nombre: str, precio: float, tipo: TipoProducto, imagen: str):
+        self.nombre: str = nombre
+        self.precio: float = precio
+        self.tipo: TipoProducto = tipo
+        self.imagen: str = imagen
 
-    def calcular_totales(self, carrito_items):
-        subtotal = sum(item.producto.precio * item.cantidad for item in carrito_items)
-        iva = subtotal * 0.16
-        total = subtotal + iva
-        return round(subtotal, 2), round(iva, 2), round(total, 2)
+    def __str__(self) -> str:
+        return f"{self.nombre} - ${self.precio}"

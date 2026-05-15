@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Resumen de Compra</title>
+</head>
 <body>
-    <h2>Precios compra</h2>
+    <h1>Precios compra</h1>
     <ul>
         {% for item in items %}
-        <li>{{ item.cantidad }}-{{ item.producto.nombre }} ${{ item.producto.precio }}</li>
+        <li>1 {{ item.nombre }} - ${{ item.precio }}</li>
         {% endfor %}
     </ul>
-    <p>SUBTOTAL: ${{ subtotal }}</p>
-    <p>IVA: ${{ iva }}</p>
-    <h3>Total: ${{ total }}</h3>
-    <a href="/">Volver</a>
+    <hr>
+    <p>Descuento: ${{ resumen.descuento }}</p>
+    <p>SUBTOTAL: ${{ resumen.subtotal }}</p>
+    <p>IVA: ${{ resumen.iva }}</p>
+    <h2>Total: ${{ resumen.total }}</h2>
+    <a href="/">Regresar</a>
 </body>
 </html>

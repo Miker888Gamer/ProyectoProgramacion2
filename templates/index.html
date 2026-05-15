@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title>Mi Pagina de venta</title>
+    <title>Cafetería</title>
+    <style>
+        .producto { display: inline-block; margin: 20px; text-align: center; border: 1px solid #ccc; padding: 10px; }
+        img { width: 200px; height: 150px; object-fit: cover; }
+        .btn-add { background-color: #00ff00; border: 2px solid black; padding: 10px; cursor: pointer; }
+        .btn-buy { background-color: #008000; color: white; padding: 15px 40px; font-size: 1.2em; }
+    </style>
 </head>
 <body>
-    <h1>Mi Pagina de venta</h1>
-    <form action="/agregar" method="POST">
-        {% for p in productos %}
-        <div class="producto-card">
-            <img src="{{ url_for('static', filename=p.imagen) }}" width="100">
-            <p>{{ p.nombre }}</p>
-            <label>cantidad:</label>
-            <input type="number" name="cantidad" value="1" min="1">
-            <input type="hidden" name="id" value="{{ p.id }}">
-            <button type="submit">Agregar</button>
+    <form action="/comprar" method="post">
+        {% for id, p in productos.items() %}
+        <div class="producto">
+            <h3>{{ p.nombre }}</h3>
+            <img src="{{ url_for('static', filename=p.imagen) }}">
+            <br><br>
+            <input type="number" name="cant_{{ id }}" value="0" min="0">
+            <br><br>
+            <div class="btn-add">añadir al carrito</div>
         </div>
-        <hr>
         {% endfor %}
+        <br><br>
+        <button type="submit" class="btn-buy">comprar</button>
     </form>
-    <br>
-    <a href="/comprar" style="background-color: green; color: white; padding: 10px; text-decoration: none;">ir al carrito</a>
 </body>
 </html>

@@ -1,7 +1,7 @@
-class ProductoNoEncontradoError(Exception):
-    """Excepción cuando se busca un ID que no existe."""
+class CarritoVacioError(Exception):
+    """Se lanza cuando se intenta comprar sin productos."""
     pass
 
-class CantidadInvalidaError(Exception):
-    """Excepción cuando el usuario pide 0 o menos productos."""
+class ProductoInvalidoError(Exception):
+    """Se lanza si hay un error con los datos del producto."""
     pass

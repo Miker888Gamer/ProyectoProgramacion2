@@ -1,42 +1,43 @@
 from flask import Flask, render_template, request, redirect, url_for
-from entidades.producto import GestionTienda, ItemCarrito
-from entidades.excepciones import CantidadInvalidaError
+from entidades.producto import Producto, TipoProducto
+from entidades.descuento import GestorCobro
+from entidades.excepciones import CarritoVacioError
 
 app = Flask(__name__)
-tienda = GestionTienda()
-carrito_global = []
+
+# Base de datos simulada
+catalogo = {
+    "1": Producto("café", 20.0, TipoProducto.CAFE, "cafe.jpg"),
+    "2": Producto("frappe", 10.0, TipoProducto.FRAPPE, "frappe.jpg"),
+    "3": Producto("cafe con leche", 15.0, TipoProducto.LACTEO, "cafe_leche.jpg")
+}
 
 @app.route('/')
 def index():
-    
-    return render_template('index.html', productos=tienda.inventario)
+    return render_template('index.html', productos=catalogo)
 
-@app.route('/agregar', methods=['POST'])
-def agregar():
-    try:
-        prod_id = int(request.form.get('id'))
-        cantidad = int(request.form.get('cantidad'))
-        
-        if cantidad <= 0:
-            raise CantidadInvalidaError("La cantidad debe ser mayor a cero")
-            
-        producto = tienda.buscar_por_id(prod_id)
-        if producto:
-            carrito_global.append(ItemCarrito(producto, cantidad))
-            
-        return redirect(url_for('comprar'))
-    except CantidadInvalidaError:
-        return "Error: Cantidad no válida", 400
-
-@app.route('/comprar')
+@app.route('/comprar', methods=['POST'])
 def comprar():
+    gestor = GestorCobro()
     
-    subtotal, iva, total = tienda.calcular_totales(carrito_global)
-    return render_template('comprar.html', 
-                           items=carrito_global, 
-                           subtotal=subtotal, 
-                           iva=iva, 
-                           total=total)
+    # Recogemos las cantidades del formulario
+    try:
+        hay_productos = False
+        for id_prod, producto in catalogo.items():
+            cantidad = int(request.form.get(f'cant_{id_prod}', 0))
+            if cantidad > 0:
+                hay_productos = True
+                for _ in range(cantidad):
+                    gestor.agregar_producto(producto)
+        
+        if not hay_productos:
+            raise CarritoVacioError("No seleccionaste nada.")
+            
+        resumen = gestor.obtener_totales()
+        return render_template('comprar.html', resumen=resumen, items=gestor.carrito)
+    
+    except CarritoVacioError:
+        return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)
